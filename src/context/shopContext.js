@@ -8,6 +8,7 @@ const client = Client.buildClient({
   storefrontAccessToken: process.env.REACT_APP_SHOPIFY_API,
 });
 
+
 class ShopProvider extends Component {
   state = {
     product: {},
@@ -16,6 +17,7 @@ class ShopProvider extends Component {
     isCartOpen: false,
     isMenuOpen: false,
   };
+
 
   componentDidMount() {
     if (localStorage.checkout_id) {
@@ -29,13 +31,13 @@ class ShopProvider extends Component {
     const checkout = await client.checkout.create();
     localStorage.setItem("checkout_id", checkout.id);
     this.setState({ checkout: checkout });
-  }
+  };
 
   fetchCheckout = (checkoutId) => {
       client.checkout
       .fetch(checkoutId)
       .then((checkout) => {
-          this.setState({ checkout: checkout })
+          this.setState({ checkout: checkout });
       })
   }
 
@@ -71,9 +73,9 @@ class ShopProvider extends Component {
 
   openCart = () => { this.setState({isCartOpen: true })};
 
-  closeMenu = () => {};
+  closeMenu = () => { this.setState({isMenuOpen: false })};
 
-  openMenu = () => {};
+  openMenu = () => { this.setState({isMenuOpen: true })};
 
   render() {
     return (
@@ -88,7 +90,6 @@ class ShopProvider extends Component {
         openCart: this.openCart,
         closeMenu: this.closeMenu,
         openMenu: this.openMenu,
-  
     }}>
     {this.props.children}
     </ShopContext.Provider>
